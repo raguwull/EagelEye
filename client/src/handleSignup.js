@@ -3,8 +3,9 @@ function validationFunction(values) {
     username: "",
     email: "",
     password: "",
+    usertype: "",
   };
-  const { username, email, password } = values;
+  const { username, email, password, usertype } = values;
 
   // Check if the username is valid
   const usernameRegex = /^[a-zA-Z0-9]+$/;
@@ -37,6 +38,13 @@ function validationFunction(values) {
     error.password = "Please enter a valid password";
   } else {
     error.password = "";
+  }
+
+  // Check if usertype is valid
+  if (usertype === "") {
+    error.usertype = "Please select your account type";
+  } else {
+    error.usertype = "";
   }
   return error;
 }

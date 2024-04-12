@@ -13,12 +13,13 @@ app.use(json());
 
 app.post("/signup", async (req, res) => {
   const request = req.body;
-  const { username, email, password } = request;
+  const { username, email, password, usertype } = request;
   try {
     await pool.query(
-      "insert into users (username, email, password) values($1, $2, $3)",
-      [username, email, password]
+      "insert into users (username, email, password, usertype) values($1, $2, $3, $4)",
+      [username, email, password, usertype]
     );
+    console.log("Done");
     res.json("success");
   } catch (error) {
     console.log(error.detail);
@@ -27,25 +28,26 @@ app.post("/signup", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-    const request = req.body;
-    const { username, password } = request;
-    try {
-      const data = await pool.query(
-        "select * from users where username = $1 and password = $2",
-        [username, password]
-      );
-      if (data.rowCount >= 1){
-        console.log(data.rowCount);
-        res.json("success");
-      }
-      else{
-        res.json("Invalid login");
-      }
-    } catch (error) {
-      console.log(error.detail);
-      res.status(200).json(error.detail);
+  const request = req.body;
+  const { username, password } = request;
+  try {
+    const data = await pool.query(
+      "select usertype from users where username = $1 and password = $2",
+      [username, password]
+    );
+    if (data.rowCount >= 1) {
+      res.json({
+        message: "success",
+        usertype: data.rows[0].usertype,
+      });
+    } else {
+      res.json("Invalid login");
     }
-  });
+  } catch (error) {
+    console.log(error.detail);
+    res.status(200).json(error.detail);
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

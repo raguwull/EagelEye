@@ -5,13 +5,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
 import ErrorElement from "./ErrorElement.jsx";
-import App from "./App";
+import Welcome from "./Welcome.jsx";
 import StudentHome from "./StudentHome.jsx";
+import ProctorHome from "./ProctorHome.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Welcome />,
     errorElement: <ErrorElement />,
   },
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/studenthome",
     element: <StudentHome />,
+  },
+  {
+    path: "/proctorhome",
+    element: <ProctorHome />,
   },
 ]);
 

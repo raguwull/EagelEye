@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import validationFunction from "./handleLogin.js";
 import axios from "axios";
 
 function Login() {
+  var isLoggedin = false;
+  localStorage.setItem("isLoggedin", isLoggedin);
+  localStorage.setItem("usertype", "");
+  localStorage.setItem("username", "");
+
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
@@ -27,15 +31,23 @@ function Login() {
     axios
       .post("http://localhost:8081/login", values)
       .then((res) => {
-        if (res.data === "success") {
+        if (res.data.message === "success") {
           console.log(res.data);
-          navigate("/");
+          isLoggedin = true;
+          localStorage.setItem("isLoggedin", isLoggedin);
+          localStorage.setItem("usertype", res.data.usertype);
+          localStorage.setItem("username", values.username);
+          if (res.data.usertype === "student") {
+            navigate("/studenthome");
+          } else if (res.data.usertype === "proctor") {
+            navigate("/proctorhome");
+          }
         } else {
           setError(res.data);
         }
       })
       .catch((err) => {
-        console.log(err.data);
+        console.log(err.response.data);
       });
   };
 

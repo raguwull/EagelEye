@@ -9,11 +9,13 @@ function Signup() {
     username: "",
     email: "",
     password: "",
+    usertype: "",
   });
   const [error, setError] = useState({
     username: "",
     email: "",
     password: "",
+    usertype: "",
   });
 
   const handleInput = (event) => {
@@ -23,15 +25,24 @@ function Signup() {
     }));
   };
 
+  const handleType = (event) => {
+    setValues((prev) => ({
+      ...prev,
+      usertype: event.target.value,
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const errorResult = validationFunction(values);
+    console.log(errorResult);
     setError(errorResult);
 
     if (
       errorResult.username === "" &&
       errorResult.email === "" &&
-      errorResult.password === ""
+      errorResult.password === "" &&
+      errorResult.usertype === ""
     ) {
       axios
         .post("http://localhost:8081/signup", values)
@@ -92,6 +103,30 @@ function Signup() {
               <span className="text-danger mb-3">{error.password}</span>
             )}
           </div>
+          <div className="d-flex flex-row justify-content-around align-items-center">
+            <div>
+              <input
+                type="radio"
+                name="usertype"
+                value="student"
+                onChange={handleType}
+              />
+              <label htmlFor="student">Student</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="usertype"
+                value="proctor"
+                onChange={handleType}
+              />
+              <label htmlFor="proctor">Proctor</label>
+            </div>
+          </div>
+          <div className="text-danger mb-3">
+            {error.usertype && <span>{error.usertype}</span>}
+          </div>
+
           <div>
             <button className="btn btn-primary w-100 mb-2" type="submit">
               Submit

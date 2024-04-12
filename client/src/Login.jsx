@@ -36,7 +36,7 @@ function Login() {
           isLoggedin = true;
           localStorage.setItem("isLoggedin", isLoggedin);
           localStorage.setItem("usertype", res.data.usertype);
-          localStorage.setItem("username", values.username);
+          localStorage.setItem("username", res.data.username);
           if (res.data.usertype === "student") {
             navigate("/studenthome");
           } else if (res.data.usertype === "proctor") {

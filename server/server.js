@@ -32,16 +32,42 @@ app.post("/login", async (req, res) => {
   const { username, password } = request;
   try {
     const data = await pool.query(
-      "select usertype from users where username = $1 and password = $2",
+      "select usertype, username from users where username = $1 and password = $2",
       [username, password]
     );
     if (data.rowCount >= 1) {
       res.json({
         message: "success",
         usertype: data.rows[0].usertype,
+        username: data.rows[0].username,
       });
     } else {
       res.json("Invalid login");
+    }
+  } catch (error) {
+    console.log(error.detail);
+    res.status(200).json(error.detail);
+  }
+});
+
+app.get("/studenthome/:username/getexams", async (req, res) => {
+  const { username } = req.params;
+  try {
+    const sql = `SELECT e.exam_name, e.proctor_name, e.start_time, e.exam_duration, e.exam_url
+  FROM exams e
+  JOIN student_exams s ON e.exam_id = s.exam_id
+  WHERE s.student_name = '${username}'`;
+    const data = await pool.query(sql);
+    console.log(data.rows);
+    if (data.rowCount >= 0) {
+      res.json({
+        message: "success",
+        data: data.rows,
+      });
+    } else {
+      res.json({
+        message: "failed",
+      });
     }
   } catch (error) {
     console.log(error.detail);

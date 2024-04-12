@@ -1,7 +1,7 @@
 {
   "name": "eagle-eye",
   "version": "1.0.0",
-  "description": "", 
+  "description": "",
   "scripts": {
     "build": "if-env TYPE=SERVER && (cd server && npm install) || (cd client && npm install)",
     "server": "cd server && nodemon server.js",

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Welcome from "./Welcome";
 
 function App() {
   const userEmail = "ragul123";
@@ -20,13 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <input type="text" value={userEmail} readOnly />
-      <button onClick={getData}>Submit</button>
-      {userData && (
-        <div>
-          <p>{userData}</p>
-        </div>
-      )}
+      <Welcome/>
     </div>
   );
 }

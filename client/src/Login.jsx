@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import validationFunction from "./handleLogin.js";
+import axios from "axios";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     username: "",
     password: "",
   });
-  const [error, setError] = useState({});
+
+  const [error, setError] = useState("");
 
   const handleInput = (event) => {
     setValues((prev) => ({
@@ -19,8 +23,20 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const errorResult = validationFunction(values);
-    setError(errorResult);
+
+    axios
+      .post("http://localhost:8081/login", values)
+      .then((res) => {
+        if (res.data === "success") {
+          console.log(res.data);
+          navigate("/");
+        } else {
+          setError(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
   };
 
   return (
@@ -29,7 +45,7 @@ function Login() {
         <form action="" onSubmit={handleSubmit}>
           <div className="mb-3 h4 text-center">Login</div>
           <div className="mb-3">
-            <label htmlFor="user_name">Username</label>
+            <label htmlFor="username">Username</label>
             <input
               type="text"
               className="form-control rounded-0"
@@ -37,11 +53,6 @@ function Login() {
               onChange={handleInput}
               placeholder="Enter username"
             />
-            {error.username && (
-              <span className="text-danger mb-3">
-                {error.username}
-              </span>
-            )}
           </div>
           <div className="mb-3">
             <label htmlFor="password">Password</label>
@@ -52,13 +63,10 @@ function Login() {
               onChange={handleInput}
               placeholder="Enter password"
             />
-            {error.password && (
-              <span className="text-danger mb-3">
-                {error.password}
-              </span>
-            )}
           </div>
-
+          <div className="text-danger mb-3">
+            {error && <span>{error}</span>}
+          </div>
           <div>
             <button
               className="btn btn-primary w-100 mb-2"

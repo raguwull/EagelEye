@@ -5,7 +5,11 @@ import axios from "axios";
 
 function Signup() {
   const navigate = useNavigate();
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [error, setError] = useState({
     username: "",
     email: "",
@@ -36,7 +40,6 @@ function Signup() {
             navigate("/login");
           } else {
             alert(res.data);
-            navigate("/signup");
           }
         })
         .catch((err) => {

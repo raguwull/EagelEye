@@ -15,15 +15,15 @@ app.post("/signup", async (req, res) => {
   const request = req.body;
   const { username, email, password } = request;
   try {
-    const users = await pool.query("insert into users ", [
-      userName,
-    ]);
-    res.json("Rows: ", users.rows);
+    await pool.query(
+      "insert into users (username, email, password) values($1, $2, $3)",
+      [username, email, password]
+    );
+    res.json("success");
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.log(error.detail);
+    res.status(200).json(error.detail);
   }
-  console.log(username, email, password);
 });
 
 app.listen(PORT, () => {

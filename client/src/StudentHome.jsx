@@ -3,6 +3,7 @@ import handleLogout from "./handleLogout";
 import { useNavigate } from "react-router-dom";
 import TestComponent from "./TestComponent";
 import axios from "axios";
+import getDate from "./getDate.js";
 
 function StudentHome() {
   const username = localStorage.getItem("username");
@@ -36,6 +37,7 @@ function StudentHome() {
     return examDetails.map((examDetail, index) => {
       const { exam_name, proctor_name, start_time, exam_duration, exam_url } =
         examDetail;
+      const formattedDate = getDate(start_time);
       const examDurationHours = exam_duration.hours;
 
       return (
@@ -43,7 +45,7 @@ function StudentHome() {
           <TestComponent
             exam_name={exam_name}
             proctor_name={proctor_name}
-            start_time={start_time}
+            start_time={formattedDate}
             exam_duration={examDurationHours}
             exam_url={exam_url}
           />
@@ -66,17 +68,15 @@ function StudentHome() {
           </div>
         </div>
       </header>
-      <div className="bg-secondary vh-100 d-flex flex-col justify-content-center pt-5">
+      <div className="bg-secondary d-flex flex-col justify-content-center pt-5">
         <div className="w-75 rounded-3 mt-5">
           <div className="bg-white text-center p-2 rounded-3 mb-3">
             Welcome, <strong>{username}</strong> 👋
           </div>
 
-          <div className="d-flex flex-col gap-2 justify-content-center align-items-center">
-            <div className="text-center m-2">{renderTestComponents()}</div>
+          <div className="text-center p-2 rounded-3 mb-3">
+            <div className="text-center">{renderTestComponents()}</div>
           </div>
-
-          <div></div>
         </div>
       </div>
     </>

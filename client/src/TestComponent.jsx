@@ -2,30 +2,30 @@ import React from "react";
 
 function TestComponent(props) {
   return (
-    <div className="w-100 bg-white p-2 d-flex flex-col rounded">
-      <div>
-        <div className="d-flex flex-row justify-content-between align-items-between gap-4">
-          <div className="text-start">
+    <div className="w-100 bg-white p-2 rounded">
+      <div className="d-flex flex-column">
+        <div className="d-flex justify-content-between rounded">
+          <div className="text-left p-2">
             <span className="text-dark">
               <strong>{props.exam_name}</strong>
             </span>
           </div>
-          <div className="text-end">
+          <div className="text-right p-2">
             Proctor:{" "}
             <span className="text-secondary">{props.proctor_name}</span>
           </div>
         </div>
-        <div className="d-flex flex-row gap-4 w-100">
-          <div className="text-start">
+        <div className="d-flex justify-content-between">
+          <div className="text-start p-2">
             Start time:{" "}
             <span className="text-secondary">{props.start_time}</span>
           </div>
-          <div className="text-end">
+          <div className="text-end p-2">
             Duration:{" "}
             <span className="text-secondary">{props.exam_duration}</span>hrs
           </div>
         </div>
-        <div className="text-start">
+        <div className="p-2 text-start">
           Exam link: <a href={props.exam_url}>click here to attempt test</a>
         </div>
       </div>

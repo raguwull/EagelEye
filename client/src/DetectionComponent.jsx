@@ -1,9 +1,11 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
+import Swal from "sweetalert2";
 
 function DetectionComponent() {
   const videoRef = useRef();
   const canvasRef = useRef();
+  const [warningCount, setWarningCount] = useState(0);
 
   // LOAD FROM USEEFFECT
   useEffect(() => {
@@ -58,6 +60,19 @@ function DetectionComponent() {
         .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
         .withFaceLandmarks()
         .withFaceExpressions();
+
+      const numberOfPersons = detections.length;
+
+      if (numberOfPersons === 0) {
+        Swal.fire("Please don't move away from the camera view");
+        setWarningCount((prevCount) => prevCount + 1);
+      } else if (numberOfPersons > 1) {
+        Swal.fire("More than one person detected");
+        setWarningCount((prevCount) => prevCount + 1);
+      } else {
+        // Reset warning count if no warnings
+        setWarningCount(0);
+      }
 
       // DRAW YOU FACE IN WEBCAM
       canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(

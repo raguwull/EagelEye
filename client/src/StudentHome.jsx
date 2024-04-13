@@ -41,7 +41,7 @@ function StudentHome() {
       const examDurationHours = exam_duration.hours;
 
       return (
-        <div key={index} className="mb-3">
+        <div key={index} className="col-3 m-2">
           <TestComponent
             exam_name={exam_name}
             proctor_name={proctor_name}
@@ -68,14 +68,16 @@ function StudentHome() {
           </div>
         </div>
       </header>
-      <div className="bg-secondary d-flex flex-col justify-content-center pt-5">
-        <div className="w-75 rounded-3 mt-5">
-          <div className="bg-white text-center p-2 rounded-3 mb-3">
+      <div className="bg-secondary d-flex flex-column justify-content-center align-items-center pt-5">
+        <div className="rounded mt-5">
+          <div className="h4 bg-white text-center p-2 rounded mb-3 w-50 mx-auto">
             Welcome, <strong>{username}</strong> 👋
           </div>
 
-          <div className="text-center p-2 rounded-3 mb-3">
-            <div className="text-center">{renderTestComponents()}</div>
+          <div className="container">
+            <div className="row justify-content-center mt-3">
+              {renderTestComponents()}
+            </div>
           </div>
         </div>
       </div>

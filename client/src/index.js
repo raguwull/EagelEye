@@ -8,6 +8,7 @@ import ErrorElement from "./ErrorElement.jsx";
 import Welcome from "./Welcome.jsx";
 import StudentHome from "./StudentHome.jsx";
 import ProctorHome from "./ProctorHome.jsx";
+import CameraComponent from "./CameraComponent.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/proctorhome",
     element: <ProctorHome />,
+  },
+  {
+    path: "/confirm",
+    element: <CameraComponent />,
   },
 ]);
 

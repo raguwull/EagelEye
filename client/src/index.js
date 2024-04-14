@@ -9,6 +9,7 @@ import Welcome from "./Welcome.jsx";
 import StudentHome from "./StudentHome.jsx";
 import ProctorHome from "./ProctorHome.jsx";
 import CameraComponent from "./CameraComponent.jsx";
+import TestPage from "./TestPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/confirm",
     element: <CameraComponent />,
+  },
+  {
+    path: "/testpage",
+    element: <TestPage />,
   },
 ]);
 

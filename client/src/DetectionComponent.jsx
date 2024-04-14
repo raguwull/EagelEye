@@ -3,9 +3,28 @@ import * as faceapi from "face-api.js";
 import Swal from "sweetalert2";
 
 function DetectionComponent() {
+  const width1 = 285;
+  const height1 = 197.5;
   const videoRef = useRef();
   const canvasRef = useRef();
   const [warningCount, setWarningCount] = useState(0);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        Swal.fire("Tab switched or minimized");
+        setWarningCount((prevCount) => prevCount + 1);
+      } else {
+        console.log("Tab active");
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   // LOAD FROM USEEFFECT
   useEffect(() => {
@@ -63,14 +82,9 @@ function DetectionComponent() {
 
       const numberOfPersons = detections.length;
 
-      if (numberOfPersons === 0) {
-        Swal.fire("Please don't move away from the camera view");
-        setWarningCount((prevCount) => prevCount + 1);
-      } else if (numberOfPersons > 1) {
-        Swal.fire("More than one person detected");
+      if (numberOfPersons === 0 || numberOfPersons > 1) {
         setWarningCount((prevCount) => prevCount + 1);
       } else {
-        // Reset warning count if no warnings
         setWarningCount(0);
       }
 
@@ -79,13 +93,13 @@ function DetectionComponent() {
         videoRef.current
       );
       faceapi.matchDimensions(canvasRef.current, {
-        width: 470,
-        height: 375,
+        width: width1,
+        height: height1,
       });
 
       const resized = faceapi.resizeResults(detections, {
-        width: 470,
-        height: 375,
+        width: width1,
+        height: height1,
       });
 
       faceapi.draw.drawDetections(canvasRef.current, resized);
@@ -94,23 +108,33 @@ function DetectionComponent() {
     }, 1000);
   };
 
+  // Watch for changes in warningCount and trigger alert
+  useEffect(() => {
+    if (warningCount >= 2) {
+      Swal.fire("Please stay in the Camera View");
+    }
+  }, [warningCount]);
+
   return (
-    <div className="justify-content-center align-items-center position-relative">
-      <div>
-        <video
-          crossOrigin="anonymous"
-          ref={videoRef}
-          width={470}
-          height={375}
-          autoPlay
-        ></video>
-      </div>
-      <div>
-        <canvas
-          ref={canvasRef}
-          className="position-absolute"
-          style={{ top: 0, left: 0 }}
-        />
+    <div style={{ position: "relative" }}>
+      <video
+        crossOrigin="anonymous"
+        ref={videoRef}
+        autoPlay
+        style={{ width: "100%", height: "auto" }}
+      ></video>
+      <canvas
+        ref={canvasRef}
+        style={{
+          display: "none",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          zIndex: 1,
+        }}
+      />
+      <div className="bg-warning px-2 text-center rounded">
+        Warnings - <span>{warningCount} </span>
       </div>
     </div>
   );

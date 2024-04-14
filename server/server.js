@@ -1,12 +1,23 @@
 import express, { json } from "express";
 import dotenv from "dotenv";
 import pool from "./db.js";
+import http from "http";
+import { Server } from "socket.io";
 import cors from "cors";
 
 dotenv.config();
 
 const PORT = process.env.PORT ?? 8081;
 const app = express();
+//// Code for socket handling
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    methods: ["GET", "POST"],
+  },
+});
 
 app.use(cors());
 app.use(json());
@@ -58,7 +69,6 @@ app.get("/studenthome/:username/getexams", async (req, res) => {
   JOIN student_exams s ON e.exam_id = s.exam_id
   WHERE s.student_name = '${username}'`;
     const data = await pool.query(sql);
-    console.log(data.rows);
     if (data.rowCount >= 0) {
       res.json({
         message: "success",
@@ -75,6 +85,22 @@ app.get("/studenthome/:username/getexams", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+  });
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  });
 });
+
+server.listen(8081, () => {
+  console.log("SERVER IS RUNNING");
+});
+
+// app.listen(PORT, () => {
+//   console.log(`Server listening on port ${PORT}`);
+// });

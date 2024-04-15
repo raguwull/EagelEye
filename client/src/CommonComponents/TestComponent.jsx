@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+const usertype = localStorage.getItem("usertype");
 
 function TestComponent(props) {
   const navigate = useNavigate();
+  const [renderText, setRenderText] = useState("");
+  const [renderExam, setRenderExam] = useState("");
+
+  useEffect(() => {
+    if (usertype === "proctor") {
+      setRenderText("Student : ");
+      setRenderExam("Proctor Exam");
+    } else {
+      setRenderText("Proctor : ");
+      setRenderExam("Start Exam");
+    }
+  }, []);
 
   const handleButtonClick = () => {
-    navigate("/confirm");
+    if (usertype === "proctor") {
+      navigate("/proctorpage");
+    } else {
+      navigate("/confirm");
+    }
   };
 
   return (
@@ -17,7 +35,7 @@ function TestComponent(props) {
           </span>
         </div>
         <div className="p-2">
-          Proctored by{" "}
+          {renderText}
           <span className="text-secondary">{props.proctor_name}</span>
         </div>
         <div className="p-2">
@@ -32,7 +50,7 @@ function TestComponent(props) {
           onClick={handleButtonClick}
           className="btn btn-primary p-2 text-center w-100"
         >
-          Start Exam
+          {renderExam}
         </button>
       </div>
     </div>

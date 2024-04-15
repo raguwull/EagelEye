@@ -14,7 +14,8 @@ function ChatComponent(props) {
     }
   };
 
-  const sendMessage = () => {
+  const sendMessage = (event) => {
+    event.preventDefault();
     if (message.trim() !== "") {
       const newMessage = { text: message, sender: "me" };
       socket.emit("send_message", { message: newMessage, room });
@@ -59,18 +60,24 @@ function ChatComponent(props) {
                   </div>
                 ))}
               </div>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Type a message..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-                <button className="btn btn-success" onClick={sendMessage}>
-                  Send
-                </button>
-              </div>
+              <form>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Type a message..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={sendMessage}
+                  >
+                    Send
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

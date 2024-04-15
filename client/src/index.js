@@ -2,15 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Login from "./Login.jsx";
-import Signup from "./Signup.jsx";
-import ErrorElement from "./ErrorElement.jsx";
-import Welcome from "./Welcome.jsx";
-import StudentHome from "./StudentHome.jsx";
-import ProctorHome from "./ProctorHome.jsx";
-import CameraComponent from "./CameraComponent.jsx";
-import TestPage from "./TestPage.jsx";
-
+import Login from "./AuthenticationPages/Login.jsx";
+import Signup from "./AuthenticationPages/Signup.jsx";
+import ErrorElement from "./ErrorComponents/ErrorElement.jsx";
+import Welcome from "./AuthenticationPages/Welcome.jsx";
+import StudentHome from "./StudentComponents/StudentHome.jsx";
+import ProctorHome from "./ProctorComponents/ProctorHome.jsx";
+import CameraComponent from "./FaceDetectionComponents/CameraComponent.jsx";
+import TestPage from "./StudentComponents/TestPage.jsx";
+import ProctorPage from "./ProctorComponents/ProctorPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/testpage",
     element: <TestPage />,
+  },
+  {
+    path: "/proctorpage",
+    element: <ProctorPage />,
   },
 ]);
 

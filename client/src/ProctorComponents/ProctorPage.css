@@ -1,0 +1,12 @@
+.webcam-container {
+  width: 100%;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.webcam-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+}

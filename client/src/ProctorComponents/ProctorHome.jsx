@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import handleLogout from "./handleLogout";
+import handleLogout from "../AuthenticationPages/handleLogout.js";
 import { useNavigate } from "react-router-dom";
-import TestComponent from "./TestComponent";
+import TestComponent from "../CommonComponents/TestComponent.jsx";
 import axios from "axios";
-import getDate from "./getDate.js";
+import getDate from "../CommonComponents/getDate.js";
 
-function StudentHome() {
+function ProctorHome() {
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
   const [examDetails, setExamDetails] = useState([]);
@@ -22,7 +22,7 @@ function StudentHome() {
   const getExamDetails = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8081/studenthome/${username}/getexams`
+        `http://localhost:8081/proctorhome/${username}/getexams`
       );
       if (res.data.message === "success") {
         setExamDetails(res.data.data);
@@ -35,7 +35,7 @@ function StudentHome() {
 
   const renderTestComponents = () => {
     return examDetails.map((examDetail, index) => {
-      const { exam_name, proctor_name, start_time, exam_duration, exam_url } =
+      const { exam_name, student_name, start_time, exam_duration, exam_url } =
         examDetail;
       const formattedDate = getDate(start_time);
       const examDurationHours = exam_duration.hours;
@@ -44,7 +44,7 @@ function StudentHome() {
         <div key={index} className="col-3 m-2">
           <TestComponent
             exam_name={exam_name}
-            proctor_name={proctor_name}
+            proctor_name={student_name}
             start_time={formattedDate}
             exam_duration={examDurationHours}
             exam_url={exam_url}
@@ -85,4 +85,4 @@ function StudentHome() {
   );
 }
 
-export default StudentHome;
+export default ProctorHome;

@@ -34,6 +34,8 @@ VALUES
     ('Biology Quiz', '2024-07-05 14:00:00', '2024-07-05 15:00:00', '1 hour', 'felix123', ''),
     ('History Final', '2024-08-20 08:30:00', '2024-08-20 10:30:00', '2 hours', 'felix123', '');
 
+INSERT INTO exams (exam_name, start_time, end_time, exam_duration, proctor_name, exam_url)
+VALUES ('Networks Quiz', '2024-07-06 14:00:00', '2024-07-05 15:00:00', '1 hour', 'felix123', '');
 
 CREATE TABLE student_exams (
     student_name varchar(255) REFERENCES users(username) ON DELETE CASCADE,
@@ -47,6 +49,8 @@ INSERT INTO student_exams (student_name, exam_id) VALUES
     ('ragul123', 3),
     ('ragul123', 4),
     ('ragul123', 5);
+
+INSERT INTO student_exams (student_name, exam_id) VALUES ('ragul123', 6);
 
 
 SELECT e.exam_name, e.proctor_name, e.start_time, e.exam_duration, e.exam_url

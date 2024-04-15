@@ -85,6 +85,30 @@ app.get("/studenthome/:username/getexams", async (req, res) => {
   }
 });
 
+app.get("/proctorhome/:username/getexams", async (req, res) => {
+  const { username } = req.params;
+  try {
+    const sql = `SELECT e.exam_name, s.student_name, e.start_time, e.exam_duration, e.exam_url
+  FROM exams e
+  JOIN student_exams s ON e.exam_id = s.exam_id
+  WHERE e.proctor_name = '${username}'`;
+    const data = await pool.query(sql);
+    if (data.rowCount >= 0) {
+      res.json({
+        message: "success",
+        data: data.rows,
+      });
+    } else {
+      res.json({
+        message: "failed",
+      });
+    }
+  } catch (error) {
+    console.log(error.detail);
+    res.status(200).json(error.detail);
+  }
+});
+
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 

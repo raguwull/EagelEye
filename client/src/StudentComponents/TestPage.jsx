@@ -1,7 +1,7 @@
 import React from "react";
-import DetectionComponent from "./DetectionComponent";
+import DetectionComponent from "../FaceDetectionComponents/DetectionComponent";
 import { useNavigate } from "react-router-dom";
-import ChatComponent from "./ChatComponent";
+import ChatComponent from "../ChatComponents/ChatComponent.jsx";
 
 function TestPage() {
   const navigate = useNavigate();

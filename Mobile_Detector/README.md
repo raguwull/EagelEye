@@ -6,7 +6,7 @@ Using a trial-and-error approach, we built the mobile detector circuit to effect
 
 **Circuit Diagram:**  
 
-![Circuit Diagram](https://github.com/user-attachments/assets/6c075f92-26a3-4e48-bd74-95904d1303b3)
+To be uploaded
 
 
 **PCB Implementation:**  

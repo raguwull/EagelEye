@@ -75,7 +75,7 @@ Using a trial-and-error approach, we built the mobile detector circuit to effect
 
 ####  ESP8266 Firmware
 
-- The source code to program the ESP8266 for Firebase integration is available in the [`mobile-detector-codes`](./mobile-detector-codes) folder.
+- The source code to program the ESP8266 for Firebase integration is available in the [`mobile_detector_codes`](./mobile_detector_codes) folder.
 - You’ll need to:
   - Flash the ESP8266 using Arduino IDE or PlatformIO.
   - Configure your Firebase credentials in the code (`WiFi SSID`, `Password`, `Database URL`, and `Secret Key`).

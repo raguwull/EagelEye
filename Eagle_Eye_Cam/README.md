@@ -1,11 +1,4 @@
-#  Eagle Eye: A Hardware-Integrated Mobile Signal Detection and Dual-Camera System for Online Exam Proctoring
-
-![Project Badge](https://img.shields.io/badge/Internally_Funded_Student_Project-blueviolet)  
-*By Syed Azim, Sai Skand S, and Ragul B – SSN College of Engineering*
-
----
-
-#### Eagle Eye Camera Module
+## Eagle Eye Camera Module
 
 This module is a critical component of the **Eagle Eye Online Proctoring System**. It provides a top-down "bird’s-eye" view of the student's environment using the **ESP32-CAM** board, enhancing visual surveillance during online examinations.
 
@@ -25,6 +18,8 @@ This module is a critical component of the **Eagle Eye Online Proctoring System*
 ##  Wiring & Programming
 
 Use jumper wires to connect the ESP32-CAM to the FTDI programmer. **Ensure proper connection as shown in the circuit diagram below**.
+
+![image](https://github.com/user-attachments/assets/c365c922-36f5-4fc1-9259-fbab647d31dc)
 
 
  **Follow this tutorial for help**:  
@@ -62,6 +57,11 @@ Web pages will be downloaded from GitHub to the /data folder on the SD card auto
 
 ## Live Streaming Integration
 Once the code is uploaded and the camera is running, it will host a local IP address for the video stream. This IP address must be linked with the proctoring portal to enable real-time live monitoring.
+
+## Picture
+
+![IMG_5934](https://github.com/user-attachments/assets/68d8471a-8dcc-4e88-8377-457d64df757d)
+
 
 ## Acknowledgements
 

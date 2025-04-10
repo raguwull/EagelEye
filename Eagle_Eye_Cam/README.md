@@ -5,94 +5,67 @@
 
 ---
 
-##  Problem Statement
+#### Eagle Eye Camera Module
 
-With the rapid shift towards digital education, online assessments have become a cornerstone of modern learning. However, ensuring academic integrity in these remote environments remains a major challenge. Despite advanced proctoring platforms offering live monitoring and AI-based analytics, many fail to address:
-
-- **Mobile phone-based cheating**  
-- **Limited visual coverage using single webcams**  
-- **Lack of integration between hardware and proctoring software**  
-
-To overcome these limitations, we developed **Eagle Eye**—a cost-effective, hybrid proctoring system combining hardware and software innovations to enhance online exam security.
+This module is a critical component of the **Eagle Eye Online Proctoring System**. It provides a top-down "bird’s-eye" view of the student's environment using the **ESP32-CAM** board, enhancing visual surveillance during online examinations.
 
 ---
 
-## Project Highlights
+##  Hardware Requirements
 
-###  1. Novel Mobile Signal Detector Circuit  
-We designed a compact and cost-effective circuit that detects various mobile signals (calls, LTE, WiFi, data, and hotspot) within a **50 cm radius**. This helps in real-time detection of unauthorized mobile usage during exams—something most existing systems overlook.
-
-###  2. “Eagle Eye” Auxiliary Camera Setup  
-To tackle the limitations of front-facing webcams, we introduced a **top-view auxiliary camera** that offers a bird’s-eye view of the student's workspace. This significantly improves visibility, reduces blind spots, and discourages malpractice.
-
-###  3. First-of-its-Kind Hardware-Software Integration  
-Our system uniquely integrates the mobile signal detector and dual-camera setup into an **interactive online proctoring workflow**, making it an **end-to-end monitoring solution** that's scalable and budget-friendly.
-
-###  4. Feature-Rich Web Proctoring Platform  
-We developed an intuitive web interface with capabilities such as a Student Exam Portal, Face Recognition for Identity Verification, Anti-Tab Switching Detection, Real-time Messaging between Students and Proctors  
-
-This fusion of hardware and software ensures a seamless, secure, and reliable exam-taking experience.
+- ESP32-CAM Board (Recommended: AI-Thinker Module)
+- FTDI Programmer (for uploading code)
+- Jumper Wires
+- MicroSD Card (for local file storage)
+- Breadboard (optional)
+- 5V/2A Power Supply (ensure stable power)
 
 ---
 
-##  Why Eagle Eye?
+##  Wiring & Programming
 
-###  Revolutionizing Exam Security  
-Eagle Eye is a game-changer for online proctoring. It enables institutions to conduct **cheat-proof online exams**, saving time, manpower, and logistical effort while maintaining integrity.
-
-###  Elevating the Value of Online Certifications  
-By enhancing exam security, Eagle Eye helps **boost the credibility** of online degrees and certifications—fostering broader acceptance from both academia and industry.
-
-###  Scalable Business Opportunity  
-Our model fits well into a **"Pay-and-Go" service structure**, where institutions only pay per exam session. The hardware is **reusable**, offering a sustainable, budget-friendly solution for long-term use.
-
----
+Use jumper wires to connect the ESP32-CAM to the FTDI programmer. **Ensure proper connection as shown in the circuit diagram below**.
 
 
-##  Installation & Setup
+ **Follow this tutorial for help**:  
+**YouTube Video by @bitluni** – [ESP32-CAM MJPEG Streaming & Recording](https://www.youtube.com/watch?v=k_PJLkfqDuI&t=1134s)  
+*Credits to the creator for the in-depth setup guide.*
 
-###  Hardware Implementation
-
-####  Mobile Detector Circuit
-
-Using a trial-and-error approach, we built the mobile detector circuit to effectively detect mobile phone signals within a **50 cm**. After testing, we finalized a stable and responsive circuit design.
-
-**Circuit Diagram:**  
-
-![Circuit Diagram](https://github.com/user-attachments/assets/6c075f92-26a3-4e48-bd74-95904d1303b3)
-
-
-**PCB Implementation:**  
-
-![IMG_5937](https://github.com/user-attachments/assets/817b28ca-c037-421d-9f57-15e320f4536d)
-
-####  Working Principle
-
-- When a mobile phone is detected in the vicinity, the circuit outputs a **5V signal**.
-- This 5V output is passed through a **voltage divider** to limit the signal to **3.3V**—safe for microcontroller input.
-- The **3.3V signal is fed into the ESP8266 module**, which is programmed to send updates to a **Firebase Realtime Database** in real-time.
-- The data in the Firebase cloud is monitored and relayed to the **proctor interface** via our web platform.
-
-####  ESP8266 Firmware
-
-- The source code to program the ESP8266 for Firebase integration is available in the [`mobile_detector_codes`](./mobile_detector_codes) folder.
-- You’ll need to:
-  - Flash the ESP8266 using Arduino IDE or PlatformIO.
-  - Configure your Firebase credentials in the code (`WiFi SSID`, `Password`, `Database URL`, and `Secret Key`).
-  - Use a 3.3V logic level for all data pins.
-
-
+To enter **upload mode**, press the **RESET** button after wiring is complete.
 
 ---
 
-##  Contributors
+##  Software Setup
 
-- **Syed Azim** – SSN College of Engineering  
-- **Sai Skand S** – SSN College of Engineering  
-- **Ragul B** – SSN College of Engineering  
+1. **Install Arduino IDE** (latest version)
+2. **Install `arduino-esp32` core** via Boards Manager  
+   - Minimum version: **v3.1.1**
+   - Ensure PSRAM is enabled
+3. Clone/download the below GitHub repo into your Arduino `sketchbook` folder 
 
 ---
 
-##  License
+##  Configuration
 
-This project is currently under private development.
+1. Open `appGlobals.h` in Arduino IDE.
+2. Uncomment the **one** board you are using:
+   ```cpp
+   #define CAMERA_MODEL_AI_THINKER      // For ESP32-CAM (Recommended)
+   //#define CAMERA_MODEL_FREENOVE_ESP32S3_CAM
+
+## First-Time Setup
+
+After uploading, the ESP32-CAM will start in WiFi Access Point mode.
+Connect to: ESP-CAM_MJPEG_...
+Visit: http://192.168.4.1 to configure your WiFi router credentials.
+Web pages will be downloaded from GitHub to the /data folder on the SD card automatically when internet is available.
+
+## Live Streaming Integration
+Once the code is uploaded and the camera is running, it will host a local IP address for the video stream. This IP address must be linked with the proctoring portal to enable real-time live monitoring.
+
+## Acknowledgements
+
+- Base code adapted from [s60sc/ESP32-CAM_MJPEG2SD](https://github.com/s60sc/ESP32-CAM_MJPEG2SD)
+- YouTube tutorial by [@bitluni](https://www.youtube.com/watch?v=k_PJLkfqDuI)
+
+
